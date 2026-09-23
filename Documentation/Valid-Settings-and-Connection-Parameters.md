@@ -4,59 +4,76 @@
 
 ### Start Wavelength
 
-- Valid range: `LimitMinWave <= StartWave <= LimitMaxWave`
-- If invalid, floor `StartWave` to `LimitMinWave`.
+```text
+LimitMinWave <= StartWave <= LimitMaxWave
+```
+
+If invalid, floor `StartWave` to `LimitMinWave`.
 
 ### Stop Wavelength
 
-- Valid range: `LimitMinWave <= StopWave <= LimitMaxWave`
-- If invalid, ceiling `StopWave` to `LimitMaxWave`.
+```text
+LimitMinWave <= StopWave <= LimitMaxWave
+```
+
+If invalid, ceiling `StopWave` to `LimitMaxWave`.
 
 ### Wavelength Order
 
-- Valid condition: `StartWave >= StopWave`
-- If invalid, set:
-  - `StartWave = LimitMinWave`
-  - `StopWave = LimitMaxWave`
+```text
+StartWave >= StopWave
+```
+
+If invalid, set `StartWave` to `LimitMinWave` and `StopWave` to `LimitMaxWave`.
 
 ### Water Absorption Wavelengths
 
-- Valid range:
-  - `1350 <= StartWave <= 1420`
-  - `1350 <= StopWave <= 1420`
-- If invalid, set `StartWave` to `LimitMinWave` and `StopWave` to `LimitMaxWave`.
+```text
+1350 <= StartWave <= 1420
+1350 <= StopWave <= 1420
+```
+
+- Water Absorption Wavelengths
+- If invalid, set to `LimitMinWave` and `LimitMaxWave`.
 
 ### Measurement Mode
 
 Valid values:
 
+```text
+MeasurementMode: 0, 1, 2, 3
+```
+
 | Value | Description |
 |---:|---|
 | `0` | Port 1 |
 | `1` | Port 2 |
-| `3` | Port 12 (SPA-100 only) |
-| `4` | IL (Transmission) (SPA-100/SPA-110 only) |
-
-> Note: The source lists `MeasurementMode` as `0, 1, 2, 3`, while the descriptions include values `0, 1, 3, 4`.
+| `2` | Unused |
+| `3` | IL (Transmission) |
 
 ### Refractive Index
 
-- Valid condition: `DefaultRefractiveIndexValue >= 1`
-- If invalid, set to `1`.
+```text
+DefaultRefractiveIndexValue >= 1
+```
 
-### Average Count
-
-- Valid condition: `AverageCount >= 1`
-- If invalid, set to `1`.
+If invalid, set to `1`.
 
 ### Power
 
-- Valid range: `-3 <= Power <= 10`
-- If invalid, set to `-3`.
+```text
+-3 <= Power <= 10
+```
+
+If invalid, set to `-3`.
 
 ### Gain
 
 Valid values:
+
+```text
+Gain: 0, 1, 2, 3, 4
+```
 
 | Value | Description |
 |---:|---|
@@ -65,6 +82,46 @@ Valid values:
 | `2` | 4 dB |
 | `3` | 9 dB |
 | `4` | 13 dB |
+
+### Wavelength Resolution
+
+```text
+WdlResolution: 0 - 10
+```
+
+| Value | Resolution |
+|---:|---|
+| `0` | `w2500fm` |
+| `1` | `w5pm` |
+| `2` | `w10pm` |
+| `3` | `w20pm` |
+| `4` | `w40pm` |
+| `5` | `w80pm` |
+| `6` | `w160pm` |
+| `7` | `w320pm` |
+| `8` | `w640pm` |
+| `9` | `w1281pm` |
+| `10` | `w2564pm` |
+
+### Distance Range
+
+Typical values:
+
+```text
+30.0m, 70.0m, 250.0m
+```
+
+Use `GetDistanceRangeTable` to get the list of available values.
+
+The sweep range must be reduced according to `DistanceRange`:
+
+| Distance Range | Sweep Range |
+|---:|---:|
+| `30.0m` | `160 nm` |
+| `70.0m` | `40 nm` |
+| `250.0m` | `10 nm` |
+
+> **Note:** These distances are in free space.
 
 ---
 
@@ -82,13 +139,17 @@ Valid communication methods:
 
 If `TSL Communication = GPIB`:
 
-- `GPIBAddress = 0 - 30`
+```text
+GPIBAddress = 0 - 30
+```
 
 ### USB
 
 If `TSL Communication = USB`:
 
-- `USBDeviceID > 0`
+```text
+USBDeviceID > 0
+```
 
 ### LAN
 
@@ -96,26 +157,6 @@ If `TSL Communication = LAN`:
 
 - `IP` and `Port` must be valid.
 
-### SPA Device ID
+### SPA-200 Device ID
 
-- The SPA Device ID must follow the format `Dev#`, where `# > 1`.
-
-### SPA-200 IP Address
-
-For SPA-200, the SPA IP address must be the `xxxxxx` value from the `rp-xxxxxx.local` address shown on the instrument sticker.
-
-### Supported Device Identifiers
-
-```text
-w2500fm
-w5pm
-w10pm
-w20pm
-w40pm
-w80pm
-w160pm
-w320pm
-w640pm
-w1281pm
-w2564pm
-```
+The SPA-200 Device ID is the last 6 digits of the MAC address (see label on instrument).
