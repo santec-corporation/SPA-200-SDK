@@ -2,29 +2,33 @@
 
 ## Settings INI
 
-### Start Wavelength
+### Wavelength Settings
+
+#### `StartWave`
 
 ```text
 LimitMinWave <= StartWave <= LimitMaxWave
 ```
 
-If invalid, floor `StartWave` to `LimitMinWave`.
+- If invalid, `StartWave` is floored to `LimitMinWave`.
 
-### Stop Wavelength
+#### `StopWave`
 
 ```text
 LimitMinWave <= StopWave <= LimitMaxWave
 ```
 
-If invalid, ceiling `StopWave` to `LimitMaxWave`.
+- If invalid, `StopWave` is ceiled to `LimitMaxWave`.
 
-### Wavelength Order
+#### Start / Stop Wavelength Relationship
 
 ```text
 StartWave >= StopWave
 ```
 
-If invalid, set `StartWave` to `LimitMinWave` and `StopWave` to `LimitMaxWave`.
+- If not valid, set:
+  - `StartWave` = `LimitMinWave`
+  - `StopWave` = `LimitMaxWave`
 
 ### Water Absorption Wavelengths
 
@@ -38,12 +42,6 @@ If invalid, set `StartWave` to `LimitMinWave` and `StopWave` to `LimitMaxWave`.
 
 ### Measurement Mode
 
-Valid values:
-
-```text
-MeasurementMode: 0, 1, 2, 3
-```
-
 | Value | Description |
 |---:|---|
 | `0` | Port 1 |
@@ -51,13 +49,13 @@ MeasurementMode: 0, 1, 2, 3
 | `2` | Unused |
 | `3` | IL (Transmission) |
 
-### Refractive Index
+### Default Refractive Index
 
 ```text
 DefaultRefractiveIndexValue >= 1
 ```
 
-If invalid, set to `1`.
+- If invalid, set to `1`.
 
 ### Power
 
@@ -65,15 +63,9 @@ If invalid, set to `1`.
 -3 <= Power <= 10
 ```
 
-If invalid, set to `-3`.
+- If invalid, set to `-3`.
 
 ### Gain
-
-Valid values:
-
-```text
-Gain: 0, 1, 2, 3, 4
-```
 
 | Value | Description |
 |---:|---|
@@ -105,21 +97,19 @@ WdlResolution: 0 - 10
 
 ### Distance Range
 
-Typical values:
-
 ```text
-30.0m, 70.0m, 250.0m
+DistanceRange: 30.0m, 70.0m, 250.0m (typical)
 ```
 
 Use `GetDistanceRangeTable` to get the list of available values.
 
-The sweep range must be reduced according to `DistanceRange`:
+The sweep range must be reduced with `DistanceRange`:
 
 | Distance Range | Sweep Range |
 |---:|---:|
-| `30.0m` | `160 nm` |
-| `70.0m` | `40 nm` |
-| `250.0m` | `10 nm` |
+| `30.0 m` | `160 nm` |
+| `70.0 m` | `40 nm` |
+| `250.0 m` | `10 nm` |
 
 > **Note:** These distances are in free space.
 
@@ -129,13 +119,11 @@ The sweep range must be reduced according to `DistanceRange`:
 
 ### TSL Communication
 
-Valid communication methods:
+Supported communication methods:
 
 - `USB`
 - `GPIB`
 - `LAN`
-
-### GPIB
 
 If `TSL Communication = GPIB`:
 
@@ -143,15 +131,11 @@ If `TSL Communication = GPIB`:
 GPIBAddress = 0 - 30
 ```
 
-### USB
-
 If `TSL Communication = USB`:
 
 ```text
 USBDeviceID > 0
 ```
-
-### LAN
 
 If `TSL Communication = LAN`:
 

@@ -2,7 +2,9 @@
 
 ## Settings Error Codes
 
-### `SetOperationSettings()` or `LoadOperationSettingsINI()`
+### Related Functions
+
+`SetOperationSettings()` or `LoadOperationSettingsINI()`
 
 Get the list of encountered error codes using `GetSettingsErrors`.
 
@@ -19,7 +21,9 @@ Get the list of encountered error codes using `GetSettingsErrors`.
 
 ## Connection Error Codes
 
-### `LoadConnectionSettingsFromFile()`
+### Related Function
+
+`LoadConnectionSettingsFromFile()`
 
 | Error Code | Description |
 |---:|---|
