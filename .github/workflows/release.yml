@@ -1,0 +1,57 @@
+name: Create Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Release version (e.g. v1.0.0)"
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: Package and Release
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set release version
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "RELEASE_VERSION=${{ inputs.version }}" >> "$GITHUB_ENV"
+          else
+            echo "RELEASE_VERSION=${GITHUB_REF_NAME}" >> "$GITHUB_ENV"
+          fi
+
+      - name: Create ZIP archive
+        run: |
+          ZIP_NAME="Santec_SPA_200_SDK_${RELEASE_VERSION}.zip"
+
+          zip -r "$ZIP_NAME" \
+            Documentation \
+            SDK \
+            Samples \
+            LICENSE \
+            README.md
+
+          echo "ZIP_NAME=$ZIP_NAME" >> "$GITHUB_ENV"
+
+      - name: Create GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "$RELEASE_VERSION" \
+            "$ZIP_NAME" \
+            --title "$RELEASE_VERSION" \
+            --generate-notes
