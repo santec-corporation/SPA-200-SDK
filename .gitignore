@@ -27,6 +27,9 @@ x86/
 [Aa][Rr][Mm]/
 [Aa][Rr][Mm]64/
 bld/
+
+# Vendored samples (not build output)
+!Samples/CS/SantecSPADLLTest/DLL/x64/
 [Bb]in/
 [Oo]bj/
 [Ll]og/
@@ -399,3 +402,5 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+.venv/
+Samples/Python/data/

@@ -1,0 +1,1466 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>SantecSPA</name>
+    </assembly>
+    <members>
+        <member name="T:SantecSPA.Connection">
+            <summary>
+            SPA and TSL Connection Settings
+            </summary>
+        </member>
+        <member name="P:SantecSPA.Connection.TslCommunicationType">
+            <summary>
+            TSL Communication Type = GPIB, USB, or LAN
+            </summary>
+        </member>
+        <member name="P:SantecSPA.Connection.TslGpibAddress">
+            <summary>
+            TSL GPIB Address, default = 1
+            </summary>
+        </member>
+        <member name="P:SantecSPA.Connection.TslUsbDeviceId">
+            <summary>
+            TSL USB ID
+            </summary>
+        </member>
+        <member name="P:SantecSPA.Connection.TslIpAddress">
+            <summary>
+            TSL IP Address
+            </summary>
+        </member>
+        <member name="P:SantecSPA.Connection.TslPort">
+            <summary>
+            TSL Port
+            </summary>
+        </member>
+        <member name="P:SantecSPA.Connection.SpaDeviceName">
+            <summary>
+            SPA Device Name (USB Dev or IP Address)
+            </summary>
+        </member>
+        <member name="P:SantecSPA.Connection.SpaType">
+            <summary>
+            SPA Device Type (0 = SPA-100/110, 1 = SPA-200)
+            </summary>
+        </member>
+        <member name="M:SantecSPA.Connection.#ctor">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SantecSPA.Connection.#ctor(System.String,System.UInt32,System.UInt32,System.String,System.UInt32,System.String,System.Int32)">
+            <summary>
+            Constructor with connection settings
+            </summary>
+            <param name="tslCommunicationType">TSL Communication Type : "GPIB", "USB", or "LAN"</param>
+            <param name="tslGpibAddress">TSL GPIB Address</param>
+            <param name="tslUsbDeviceId">TSL USB Device ID</param>
+            <param name="tslIpAddress">TSL IP Address</param>
+            <param name="tslPort">TSL Port</param>
+            <param name="spaDeviceName">SPA Device Name</param>
+        </member>
+        <member name="M:SantecSPA.Connection.LoadConnectionSettingsFromFile(System.String)">
+            <summary>
+            Load connection settings from specified file
+            </summary>
+            <param name="filepath"></param>
+            <returns>Error code</returns>
+        </member>
+        <member name="M:SantecSPA.Connection.SaveConnectionSettingsToFile(System.String)">
+            <summary>
+            Save connection settings to specified file
+            </summary>
+            <param name="filepath"></param>
+            <returns>Error code</returns>
+        </member>
+        <member name="T:SantecSPA.Data">
+            <summary>
+            Contains all data acquired and processed by the system.
+            </summary>
+        </member>
+        <member name="P:SantecSPA.Data.Dr">
+            <summary>
+            Base resolution   
+            </summary>
+        </member>
+        <member name="P:SantecSPA.Data.DaqData">
+            <summary>
+            Raw DAQ data
+            </summary>
+        </member>
+        <member name="P:SantecSPA.Data.RefDaqData">
+            <summary>
+            Raw Reference DAQ data
+            </summary>
+        </member>
+        <member name="P:SantecSPA.Data.FftData">
+            <summary>
+            Raw FFT data, fresh from the scan. Only ever replaced by ProcessDistanceAxisData/200, never mutated afterward.
+            </summary>
+        </member>
+        <member name="P:SantecSPA.Data.FftDataProcessed">
+            <summary>
+            Processed FFT data (offset applied, Gaussian filter applied if enabled). Recomputed from FftData on every ProcessXYData/200 call.
+            </summary>
+        </member>
+        <member name="P:SantecSPA.Data.RefFftData">
+            <summary>
+            Raw Reference FFT data, fresh from the reference scan. Only ever replaced by ProcessDistanceAxisData/200, never mutated afterward.
+            </summary>
+        </member>
+        <member name="P:SantecSPA.Data.RefFftDataProcessed">
+            <summary>
+            Processed Reference FFT data (offset applied, Gaussian filter applied if enabled). Recomputed from RefFftData on every ProcessXYData/200 call.
+            </summary>
+        </member>
+        <member name="P:SantecSPA.Data.DbData">
+            <summary>
+            Raw FFT data in dB, fresh from the scan. Only ever replaced by ProcessDistanceAxisData/200, never mutated afterward.
+            </summary>
+        </member>
+        <member name="P:SantecSPA.Data.DbDataProcessed">
+            <summary>
+            Processed FFT data in dB (offset applied, Gaussian filter applied if enabled). Recomputed from DbData on every ProcessXYData/200 call.
+            </summary>
+        </member>
+        <member name="P:SantecSPA.Data.RefDbData">
+            <summary>
+            Raw Reference FFT data in dB, fresh from the reference scan. Only ever replaced by ProcessDistanceAxisData/200, never mutated afterward.
+            </summary>
+        </member>
+        <member name="P:SantecSPA.Data.RefDbDataProcessed">
+            <summary>
+            Processed Reference FFT data in dB (offset applied, Gaussian filter applied if enabled). Recomputed from RefDbData on every ProcessXYData/200 call.
+            </summary>
+        </member>
+        <member name="P:SantecSPA.Data.WdlData">
+            <summary>
+            Processed WDL Data
+            </summary>
+        </member>
+        <member name="P:SantecSPA.Data.RefWdlData">
+            <summary>
+            Processed Reference WDL Data
+            </summary>
+        </member>
+        <member name="P:SantecSPA.Data.ReflectionDataX">
+            <summary>
+            Reflection x-axis data (distance)
+            </summary>
+        </member>
+        <member name="P:SantecSPA.Data.ReflectionDataY">
+            <summary>
+            Reflection y-axis data (reflectance)
+            </summary>
+        </member>
+        <member name="P:SantecSPA.Data.ReflectionRefDataX">
+            <summary>
+            Reflection reference x-axis data (distance)
+            </summary>
+        </member>
+        <member name="P:SantecSPA.Data.ReflectionRefDataY">
+            <summary>
+            Reflection reference y-axis data (reflectance)
+            </summary>
+        </member>
+        <member name="P:SantecSPA.Data.ReflectionWdlDataX">
+            <summary>
+            Reflection WDL x-axis data (wavelength)
+            </summary>
+        </member>
+        <member name="P:SantecSPA.Data.ReflectionWdlDataY">
+            <summary>
+            Reflection WDL y-axis data (RL)
+            </summary>
+        </member>
+        <member name="P:SantecSPA.Data.ReflectionWdlRefDataX">
+            <summary>
+            Reflection WDL reference x-axis data (wavelength)
+            </summary>
+        </member>
+        <member name="P:SantecSPA.Data.ReflectionWdlRefDataY">
+            <summary>
+            Reflection WDL reference y-axis data (RL)
+            </summary>
+        </member>
+        <member name="P:SantecSPA.Data.TransmissionDataX">
+            <summary>
+            Transmission x-axis data (distance)
+            </summary>
+        </member>
+        <member name="P:SantecSPA.Data.TransmissionDataY">
+            <summary>
+            Transmission y-axis data (reflectance)
+            </summary>
+        </member>
+        <member name="P:SantecSPA.Data.TransmissionRefDataX">
+            <summary>
+            Transmission reference x-axis data (distance)
+            </summary>
+        </member>
+        <member name="P:SantecSPA.Data.TransmissionRefDataY">
+            <summary>
+            Transmission reference y-axis data (reflectance)
+            </summary>
+        </member>
+        <member name="P:SantecSPA.Data.TransmissionWdlDataX">
+            <summary>
+            Transmission WDL x-axis data (wavelength)
+            </summary>
+        </member>
+        <member name="P:SantecSPA.Data.TransmissionWdlDataY">
+            <summary>
+            Transmission WDL y-axis data (IL)
+            </summary>
+        </member>
+        <member name="P:SantecSPA.Data.TransmissionWdlRefDataX">
+            <summary>
+            Transmission WDL Reference x-axis data (wavelength)
+            </summary>
+        </member>
+        <member name="P:SantecSPA.Data.TransmissionWdlRefDataY">
+            <summary>
+            Transmission WDL Reference y-axis data (IL)
+            </summary>
+        </member>
+        <member name="P:SantecSPA.Data.RefractiveIndex">
+            <summary>
+            Flag whether refractive index is applied to the data
+            </summary>
+        </member>
+        <member name="M:SantecSPA.Data.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="M:SantecSPA.Data.Copy">
+            <summary>
+            Deep copy
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SantecSPA.Data.LowerBound(System.Collections.Generic.IList{System.Double},System.Double)">
+            <summary>
+            Find the index of the first element &gt;= target in an ascending-sorted list.
+            Used instead of Keys/Values.FirstOrDefault(predicate) so lookups against
+            DistanceMap (which can hold one entry per waveform sample) are O(log n)
+            instead of a linear O(n) scan.
+            </summary>
+        </member>
+        <member name="M:SantecSPA.Filters.GaussianKernel1d(System.Int32,System.Double)">
+            <summary>
+            Generate 1-dimensional gaussian kernel
+            </summary>
+            <param name="kernelRadius"></param>
+            <param name="sigma"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SantecSPA.Filters.GaussianFilter(System.Double[],System.Double[])">
+            <summary>
+            Naive gaussian filter
+            </summary>
+            <param name="array"></param>
+            <param name="kernel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SantecSPA.Filters.BoxBlurSizes(System.Double,System.Int32)">
+            <summary>
+            Create box blur kernel from gaussian filter parameter (sigma) and number of iterations (n)
+            </summary>
+            <param name="sigma"></param>
+            <param name="n"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SantecSPA.Filters.BoxBlurSizes(System.Double,System.Int32,System.Int32)">
+            <summary>
+            Create box blur kernel from gaussian filter parameter (sigma and radius) and number of iterations (n)
+            </summary>
+            <param name="sigma"></param>
+            <param name="radius"></param>
+            <param name="n"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SantecSPA.Filters.BoxBlur1d(System.Double[],System.Double[],System.Int32,System.Int32)">
+            <summary>
+            1-dimensional Box Blur
+            </summary>
+            <param name="source"></param>
+            <param name="dest"></param>
+            <param name="w"></param>
+            <param name="r"></param>
+        </member>
+        <member name="M:SantecSPA.Filters.BoxBlur1d_Fast(System.Double[],System.Double[],System.Int32,System.Int32)">
+            <summary>
+            Fast 1-dimensional Box Blur
+            </summary>
+            <param name="source"></param>
+            <param name="dest"></param>
+            <param name="w"></param>
+            <param name="r"></param>
+        </member>
+        <member name="M:SantecSPA.Filters.BoxBlur(System.Double[],System.Double[],System.Int32,System.Int32)">
+            <summary>
+            Box Blur
+            </summary>
+            <param name="source"></param>
+            <param name="dest"></param>
+            <param name="w"></param>
+            <param name="r"></param>
+        </member>
+        <member name="M:SantecSPA.Filters.GaussianApprox(System.Double[],System.Double[],System.Double,System.Int32,System.Int32)">
+            <summary>
+            Gaussian Filter Approximation with 3 iterations of Box Blurs
+            </summary>
+            <param name="source"></param>
+            <param name="dest"></param>
+            <param name="sigma"></param>
+            <param name="radius"></param>
+            <param name="n"></param>
+        </member>
+        <member name="T:SantecSPA.Instrument">
+            <summary>
+            Controls the SPA and TSL
+            </summary>
+        </member>
+        <member name="P:SantecSPA.Instrument.TslDevice">
+            <summary>
+            TSL Device
+            </summary>
+        </member>
+        <member name="P:SantecSPA.Instrument.DaqDevice">
+            <summary>
+            Base DAQ Device
+            </summary>
+        </member>
+        <member name="P:SantecSPA.Instrument.SpaDevice">
+            <summary>
+            SPA Device
+            </summary>
+        </member>
+        <member name="P:SantecSPA.Instrument.Connection">
+            <summary>
+            Device Connection
+            </summary>
+        </member>
+        <member name="M:SantecSPA.Instrument.#ctor">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SantecSPA.Instrument.GetSpaDeviceList(System.String[]@)">
+            <summary>
+            Get the list of connected SPA devices
+            </summary>
+            <param name="deviceList"></param>
+        </member>
+        <member name="M:SantecSPA.Instrument.GetTslDeviceList(System.String[]@)">
+            <summary>
+            Get the list of connected TSL devices
+            </summary>
+            <param name="deviceList"></param>
+        </member>
+        <member name="M:SantecSPA.Instrument.ConnectInstruments">
+            <summary>
+            Connect to TSL and SPA using specified connection settings
+            </summary>
+            <returns>Error code</returns>
+        </member>
+        <member name="M:SantecSPA.Instrument.SetScanSettings(SantecSPA.Settings)">
+            <summary>
+            Set SPA scan settings based on Settings paramters
+            </summary>
+            <returns>Error code</returns>
+        </member>
+        <member name="M:SantecSPA.Instrument.StartScan">
+            <summary>
+            Start the OFDR Scan
+            </summary>
+            <returns>Error code</returns>
+        </member>
+        <member name="M:SantecSPA.Instrument.StopScan">
+            <summary>
+            Stop the OFDR Scan
+            </summary>
+            <returns>Error code</returns>
+        </member>
+        <member name="M:SantecSPA.Instrument.CheckScanStatus">
+            <summary>
+            Check status of OFDR Scan
+            </summary>
+            <returns>Error code</returns>
+        </member>
+        <member name="M:SantecSPA.Instrument.GetSamplingData(System.Double[]@)">
+            <summary>
+            Get the OFDR Scan data. This waits for the scan to finish.
+            </summary>
+            <param name="samples"></param>
+            <returns>Error code</returns>
+        </member>
+        <member name="M:SantecSPA.Processing.ProcessDistanceAxisData(SantecSPA.Data,SantecSPA.Settings,System.Boolean)">
+            <summary>
+            Process raw waveform data into spatial data
+            </summary>
+            <param name="spaData">OFDR scan data</param>
+            <param name="settings">Settings</param>
+            <param name="reference">Process as reference scan</param>
+        </member>
+        <member name="M:SantecSPA.Processing.ProcessDistanceAxisData200(SantecSPA.Data,SantecSPA.Settings,System.Int32,System.Boolean)">
+            <summary>
+            Process raw waveform data into spatial data
+            </summary>
+            <param name="spaData">OFDR scan data</param>
+            <param name="settings">Settings</param>
+            <param name="reference">Process as reference scan</param>
+        </member>
+        <member name="M:SantecSPA.Processing.ProcessXYData(SantecSPA.Data,SantecSPA.Settings,System.Boolean)">
+            <summary>
+            Process spatial graph data
+            </summary>
+            <param name="spaData">OFDR scan data</param>
+            <param name="setting">Settings</param>
+            <param name="reference">Flag that this is a reference scan</param>
+        </member>
+        <member name="M:SantecSPA.Processing.ProcessXYData200(SantecSPA.Data,SantecSPA.Settings,System.Boolean)">
+            <summary>
+            Process spatial graph data
+            </summary>
+            <param name="spaData">OFDR scan data</param>
+            <param name="setting">Settings</param>
+            <param name="reference">Flag that this is a reference scan</param>
+        </member>
+        <member name="M:SantecSPA.Processing.ApplyGaussianFilter(System.Double,System.Double,SantecSPA.Data,SantecSPA.Data,System.Boolean)">
+            <summary>
+            Apply gaussian filter to spaData
+            </summary>
+            <param name="radius">Gaussian filter radius</param>
+            <param name="dr">Base spatial resolution</param>
+            <param name="spaData">FFT spaData</param>
+            <param name="spaDataFiltered">Filtered FFT spaData</param>
+            <param name="reference">Process as reference scan</param>
+            <returns></returns>
+        </member>
+        <member name="M:SantecSPA.Processing.FindPeaks(SantecSPA.Data,System.Double,System.Double,System.Double,System.Double,System.Double[]@,System.Double[]@)">
+            <summary>
+            Find peaks from OFDR data
+            </summary>
+            <param name="spaData">OFDR data</param>
+            <param name="xMin">Search region start</param>
+            <param name="xMax">Search region end</param>
+            <param name="threshold">Peak amplitude threshold</param>
+            <param name="width">Peak width</param>
+            <param name="peakPositionList">List of peak positions</param>
+            <param name="peakValuesList">List of peak values</param>
+        </member>
+        <member name="M:SantecSPA.Processing.AddRefractiveIndexRegion(System.Double,System.Double,System.Double)">
+            <summary>
+            Add a refractive index region
+            </summary>
+            <param name="xMin">Region start position (scaled)</param>
+            <param name="xMax">Region end position (scaled)</param>
+            <param name="index">Refractive index</param>
+        </member>
+        <member name="M:SantecSPA.Processing.SpanRL(System.Double[],System.Int32,System.Int32,System.Double)">
+            <summary>
+            Calculate the RL for the given span
+            </summary>
+            <param name="fftData">OFDR spatial data</param>
+            <param name="startIdx">Start index</param>
+            <param name="stoptIdx">Stop index</param>
+            <returns></returns>
+        </member>
+        <member name="M:SantecSPA.Processing.SpanIL(System.Double[],System.Int32,System.Int32,System.Int32,System.Int32,System.Double)">
+            <summary>
+            Calculate the IL for the given span
+            </summary>
+            <param name="fftData">OFDR spatial data</param>
+            <param name="iStart_L">Left averaging region boundary of IL start position</param>
+            <param name="iStart_R">Right averaging region boundary of IL start position</param>
+            <param name="iStop_L">Left averaging region boundary of IL stop position</param>
+            <param name="iStop_R">Right averaging region boundary of IL stop position</param>
+            <returns></returns>
+        </member>
+        <member name="M:SantecSPA.Processing.ReferenceRLOffset(SantecSPA.Data,System.Int32)">
+            <summary>
+            Calculate RL Reference offset
+            </summary>
+            <param name="spaData">OFDR scan data</param>
+            <returns></returns>
+        </member>
+        <member name="M:SantecSPA.Processing.ReferenceILOffset(SantecSPA.Data)">
+            <summary>
+            Calculate IL Reference offset
+            </summary>
+            <param name="spaData">OFD scan data</param>
+            <returns></returns>
+        </member>
+        <member name="M:SantecSPA.Processing.DistMapCreation(SantecSPA.Data@,System.Collections.Generic.List{System.Double}@,System.Boolean)">
+            <summary>
+            Create width map with refractive index regions applied
+            </summary>
+            <param name="spaData">OFDR scan data</param>
+            <param name="xvals">X-axis values (width)</param>
+            <param name="reference">Process as reference scan</param>
+        </member>
+        <member name="M:SantecSPA.Processing.PeakSearchRegion(System.Double[],System.Int32,System.Int32,System.Double,System.UInt32)">
+            <summary>
+            Find peaks in the given region
+            </summary>
+            <param name="full_data">Spatial data</param>
+            <param name="start">Start index</param>
+            <param name="stop">Stop index</param>
+            <param name="height">Peak height threshold</param>
+            <param name="width">Peak width (index count)</param>
+            <returns></returns>
+        </member>
+        <member name="M:SantecSPA.Processing.ProcessDispersionCompensation(SantecSPA.Data,SantecSPA.Settings,System.Boolean,System.Double[]@,System.Double[]@,System.Boolean)">
+            <summary>
+            Process dispersion compensation
+            </summary>
+            <param name="spaData">OFDR scan data</param>
+            <param name="settings">Settings</param>
+            <param name="fixedCoeff">Use fixed dispersion coefficient</param>
+            <param name="inputRe">Adjusted data (real)</param>
+            <param name="inputIm">Adjusted data (imaginary)</param>
+            <param name="reference">Process as reference scan</param>
+        </member>
+        <member name="M:SantecSPA.Processing.ProcessDispersionCompensation200(SantecSPA.Data,SantecSPA.Settings,System.Boolean,System.Double[]@,System.Double[]@,System.Double[]@,System.Double[]@,System.Boolean)">
+            <summary>
+            Process dispersion compensation
+            </summary>
+            <param name="spaData">OFDR scan data</param>
+            <param name="settings">Settings</param>
+            <param name="fixedCoeff">Use fixed dispersion coefficient</param>
+            <param name="inputRe">Adjusted data (real)</param>
+            <param name="inputIm">Adjusted data (imaginary)</param>
+            <param name="reference">Process as reference scan</param>
+        </member>
+        <member name="M:SantecSPA.Processing.RLPeakSearchAbsDistance(SantecSPA.Data,System.Double,System.Boolean)">
+            <summary>
+            Find the real system peak from the calibration system peak position
+            </summary>
+            <param name="spaData">OFDR spaData</param>
+            <param name="pos">System peak position</param>
+            <param name="reference">Process as reference scan</param>
+            <returns></returns>
+        </member>
+        <member name="T:SantecSPA.Settings">
+            <summary>
+            Contains the SPA operation settings
+            </summary>
+        </member>
+        <member name="P:SantecSPA.Settings.StartWave">
+            <summary>
+            TSL sweep start wavelength
+            </summary>
+        </member>
+        <member name="P:SantecSPA.Settings.StopWave">
+            <summary>
+            TSL sweep stop wavelength
+            </summary>
+        </member>
+        <member name="P:SantecSPA.Settings.StepWL">
+            <summary>
+            TSL sweep step size
+            </summary>
+        </member>
+        <member name="P:SantecSPA.Settings.SweepSpeed">
+            <summary>
+            TSL sweep speed
+            </summary>
+            <remarks>
+            Reduce to 50 for full range sweep.
+            </remarks>
+        </member>
+        <member name="P:SantecSPA.Settings.Thinning">
+            <summary>
+            SPA Data Thinning
+            </summary>
+        </member>
+        <member name="P:SantecSPA.Settings.Power">
+            <summary>
+            TSL Power
+            </summary>
+            <remarks>
+            Range is -3 dBm to 10 dBm
+            </remarks>
+        </member>
+        <member name="P:SantecSPA.Settings.InternalMeasurementMode">
+            <summary>
+            Measurement Mode Enum Value
+            </summary>
+        </member>
+        <member name="P:SantecSPA.Settings.MeasurementMode">
+            <summary>
+            Measurement Mode Setting
+            </summary>
+            <remarks>
+            0 : Reflection Mode Port 1; 1 : Reflection Mode Port 2; 2 : Reflection Mode Port 1+2; 3 : Transmission Mode 
+            </remarks>
+        </member>
+        <member name="P:SantecSPA.Settings.PeakThreshold">
+            <summary>
+            Peak search amplitude threshold (dB)
+            </summary>
+        </member>
+        <member name="P:SantecSPA.Settings.PeakWidth">
+            <summary>
+            Peak search width (mm)
+            </summary>
+        </member>
+        <member name="P:SantecSPA.Settings.RlRange">
+            <summary>
+            Peak RL measurement region width (mm)
+            </summary>
+            <remarks>
+            Width around center of peak
+            </remarks>
+        </member>
+        <member name="P:SantecSPA.Settings.IlRange">
+            <summary>
+            Peak IL measurement averaging region width (mm)
+            </summary>
+            <remarks>
+            Width around RlRange boundaries
+            </remarks>
+        </member>
+        <member name="P:SantecSPA.Settings.InternalGain">
+            <summary>
+            Gain Enum Value
+            </summary>
+        </member>
+        <member name="P:SantecSPA.Settings.Gain">
+            <summary>
+            Gain Setting
+            </summary>
+            <remarks>
+            0 = auto, 1 = 0 dB, 2 = 4 dB, 3 = 9 dB, 4 = 13 dB
+            </remarks>
+        </member>
+        <member name="P:SantecSPA.Settings._Gain_A">
+            <summary>
+            Gain for PCB-A
+            </summary>
+        </member>
+        <member name="P:SantecSPA.Settings.LimitMinWave">
+            <summary>
+            Min sweep wavelength limit
+            </summary>
+        </member>
+        <member name="P:SantecSPA.Settings.LimitMaxWave">
+            <summary>
+            Max sweep wavelength limit
+            </summary>
+        </member>
+        <member name="P:SantecSPA.Settings.SpecMinWave">
+            <summary>
+            TSL spec min sweep wavelength
+            </summary>
+        </member>
+        <member name="P:SantecSPA.Settings.SpecMaxWave">
+            <summary>
+            TSL spec max sweep wavelength
+            </summary>
+        </member>
+        <member name="P:SantecSPA.Settings._WdlResolution">
+            <summary>
+            WDL Resolution Enum Value
+            </summary>
+        </member>
+        <member name="P:SantecSPA.Settings.WdlResolution">
+            <summary>
+            WDL Resolution Setting
+            </summary>
+            <remarks>
+            0 : 2500fm; 1 : 5pm, 2 : 10pm; 3 : 20pm; 4 : 80pm; 5 : 160pm; 6 : 320pm; 7 : 640pm; 8 : 1281pm; 9 : 2564 pm
+            </remarks>
+        </member>
+        <member name="P:SantecSPA.Settings.AttenuationUnit">
+            <summary>
+            Attenuation unit
+            </summary>
+        </member>
+        <member name="P:SantecSPA.Settings.GaussianFilter">
+            <summary>
+            Enable Gaussian Filter for Reflectance Data
+            </summary>
+        </member>
+        <member name="P:SantecSPA.Settings.GaussianRadius">
+            <summary>
+            Gaussian Filter radius
+            </summary>
+        </member>
+        <member name="P:SantecSPA.Settings.ContinuousAveraging">
+            <summary>
+            Enable running average in Continuous Mode
+            </summary>
+        </member>
+        <member name="P:SantecSPA.Settings.AverageCount">
+            <summary>
+            Running average count
+            </summary>
+        </member>
+        <member name="P:SantecSPA.Settings.DispersionCompensation">
+            <summary>
+            Enable dispersion compensation
+            </summary>
+        </member>
+        <member name="E:SantecSPA.Settings.DispersionCompensationEnabled">
+            <summary>
+            Raised when DispersionCompensation is changed from false to true
+            </summary>
+        </member>
+        <member name="P:SantecSPA.Settings.DispersionCoefficient">
+            <summary>
+            Dispersion compensation coefficient
+            </summary>
+        </member>
+        <member name="P:SantecSPA.Settings.PeakDetect">
+            <summary>
+            Enable peak detection
+            </summary>
+        </member>
+        <member name="P:SantecSPA.Settings.EnableRefractiveIndex">
+            <summary>
+            Enable refractive index regions
+            </summary>
+        </member>
+        <member name="P:SantecSPA.Settings.ShowRefractiveIndexRegion">
+            <summary>
+            Show refractive index regions
+            </summary>
+        </member>
+        <member name="P:SantecSPA.Settings.RefractiveIndex">
+            <summary>
+            Default refractive index value
+            </summary>
+            <remarks>
+            Must be >=1
+            </remarks>
+        </member>
+        <member name="P:SantecSPA.Settings.ILRefBandpassRange">
+            <summary>
+            IL Reference band-pass range
+            </summary>
+        </member>
+        <member name="P:SantecSPA.Settings.DistanceRange">
+            <summary>
+            SPA-110 distance range
+            </summary>
+        </member>
+        <member name="P:SantecSPA.Settings.DistanceRangeTable">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SantecSPA.Settings.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="M:SantecSPA.Settings.InitializeOperationSettingsIni(System.String)">
+            <summary>
+            Initialize operation settings and save to specified INI file
+            </summary>
+            <param name="filepath">Path for INI file to save to</param>
+            <returns>Error code</returns>
+        </member>
+        <member name="M:SantecSPA.Settings.LoadOperationSettingsIni(System.String)">
+            <summary>
+            Load operation settings from specified INI file
+            </summary>
+            <param name="filepath">Path for INI file to load</param>
+            <returns>Error code</returns>
+        </member>
+        <member name="M:SantecSPA.Settings.SaveOperationSettingsIni(System.String)">
+            <summary>
+            Save operation settings to specified INI file
+            </summary>
+            <param name="filepath">Path for INI file to save to</param>
+            <returns>Error code</returns>
+        </member>
+        <member name="M:SantecSPA.Settings.GetSettingsErrors(System.Int32[]@,System.Boolean)">
+            <summary>
+            Get a list of errors from the last time LoadOperationSettingsIni was called
+            </summary>
+            <param name="errList"></param>
+            <param name="clear">Clear the errors</param>
+            <returns>Error code</returns>
+        </member>
+        <member name="T:SantecSPA.SPAModule">
+            <summary>
+            Santec SPA Module
+            </summary>
+        </member>
+        <member name="P:SantecSPA.SPAModule.Instrument">
+            <summary>
+            Control the Instruments (SPA and TSL)
+            </summary>
+        </member>
+        <member name="P:SantecSPA.SPAModule.Settings">
+            <summary>
+            Operation Settings
+            </summary>
+        </member>
+        <member name="P:SantecSPA.SPAModule.Data">
+            <summary>
+            Acquired Data
+            </summary>
+        </member>
+        <member name="M:SantecSPA.SPAModule.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="M:SantecSPA.SPAModule.GetSpaDeviceList(System.String[]@)">
+            <summary>
+            Get a list of SPA devices. Use this with connection settings to specify which SPA device to use.
+            </summary>
+            <param name="deviceList">List of SPA devices</param>
+            <returns>Error code</returns>
+        </member>
+        <member name="M:SantecSPA.SPAModule.ScanStandby">
+            <summary>
+            Puts the system into trigger standby
+            </summary>
+            <returns>Error code</returns>
+        </member>
+        <member name="M:SantecSPA.SPAModule.Scan(System.Boolean)">
+            <summary>
+            Performs a single OFDR scan and saves raw data in memory.
+            </summary>
+            <param name="reference">Flag as reference</param>
+            <returns>Error code</returns>
+        </member>
+        <member name="M:SantecSPA.SPAModule.StopScan">
+            <summary>
+            Stop the current scan and reset from standby mode.
+            </summary>
+            <returns>Error code</returns>
+        </member>
+        <member name="M:SantecSPA.SPAModule.CloseTSLShutter">
+            <summary>
+            Close the TSL shutter
+            </summary>
+            <returns>Error code</returns>
+        </member>
+        <member name="M:SantecSPA.SPAModule.OpenTSLShutter">
+            <summary>
+            Open the TSL shutter
+            </summary>
+            <returns>Error code</returns>
+        </member>
+        <member name="M:SantecSPA.SPAModule.LoadDSPAFile(System.String,System.Int32)">
+            <summary>
+            Load a DSPA data file
+            </summary>
+            <param name="filename"></param>
+            <returns>Error code</returns>
+        </member>
+        <member name="M:SantecSPA.SPAModule.LoadDSPAFile(System.String)">
+            <summary>
+            Load a DSPA data file
+            </summary>
+            <param name="filename"></param>
+            <returns>Error code</returns>
+        </member>
+        <member name="M:SantecSPA.SPAModule.SaveDSPAFile(System.String,System.Int32)">
+            <summary>
+            Save a DSPA data file
+            </summary>
+            <param name="filename">Filenaem for DSPA file to create</param>
+            <returns>Error code</returns>
+        </member>
+        <member name="M:SantecSPA.SPAModule.SaveDSPAFile(System.String)">
+            <summary>
+            Save a DSPA data file
+            </summary>
+            <param name="filename"></param>
+            <returns>Error code</returns>
+        </member>
+        <member name="M:SantecSPA.SPAModule.GetRawMeasurementData(System.Double[]@,System.Boolean)">
+            <summary>
+            Get the raw frequeny domain data from the most recent scan for SPA-110
+            </summary>
+            <param name="rawData">Raw waveform data (1xN array)</param>
+            <param name="reference">Flag as reference</param>
+            <returns>Error code</returns>
+        </member>
+        <member name="M:SantecSPA.SPAModule.GetRawMeasurementData(System.Double[][]@,System.Boolean)">
+            <summary>
+            Get the raw frequeny domain data from the most recent scan for SPA-200
+            </summary>
+            <param name="rawData">Raw waveform data (3xN array)</param>
+            <param name="reference">Flag as reference</param>
+            <returns>Error code</returns>
+        </member>
+        <member name="M:SantecSPA.SPAModule.SetRawMeasurementData(System.Double[],System.Boolean)">
+            <summary>
+            Set the raw scan data stored in memory for SPA-110
+            </summary>
+            <param name="rawData">Raw waveform data</param>
+            <param name="reference">Flag as reference</param>
+            <returns>Error code</returns>
+        </member>
+        <member name="M:SantecSPA.SPAModule.SetRawMeasurementData(System.Double[][],System.Boolean)">
+            <summary>
+            Set the raw scan data stored in memory for SPA-200
+            </summary>
+            <param name="rawData">Raw waveform data</param>
+            <param name="reference">Flag as reference</param>
+            <returns>Error code</returns>
+        </member>
+        <member name="M:SantecSPA.SPAModule.GetReflectanceDataA(System.Double[]@,System.Double[]@,System.Boolean)">
+            <summary>
+            SPA-200 only
+            Process the most recent raw reflectance data and yields the reflectance trace of CH1/FFTA in spatial domain.
+            Output the full range of data.
+            This will use the midpoint of the entire range for distance correction.
+            </summary>
+            <param name="reflDataX">Measurement X-axis data (position)</param>
+            <param name="reflDataY">Measurement Y-axis data (reflectance)</param>
+            <param name="reference">Flag as reference</param>
+            <returns>Error code</returns>
+            
+        </member>
+        <member name="M:SantecSPA.SPAModule.GetReflectanceDataA(System.Double,System.Double,System.Double,System.Double[]@,System.Double[]@,System.Boolean)">
+            <summary>
+            SPA-200 only
+            Process the most recent raw reflectance data and yields the reflectance trace of CH1/FFTA in spatial domain.
+            Output data from the specified start position to end position using specified distance correction position.
+            </summary>
+            <param name="startPos">Start position</param>
+            <param name="endPos">End position</param>
+            <param name="distCorrPos">Distance Correction position</param>
+            <param name="reflDataX">Measurement X-axis data (position)</param>
+            <param name="reflDataY">Measurement Y-axis data (reflectance)</param>
+            <param name="reference">Flag as reference</param>
+            <returns>Error code</returns>
+            
+        </member>
+        <member name="M:SantecSPA.SPAModule.GetReflectanceDataA(System.Double,System.Double,System.Double[]@,System.Double[]@,System.Boolean)">
+            <summary>
+            SPA-200 only
+            Process the most recent raw reflectance data and yields the reflectance trace of CH1/FFTA in spatial domain.
+            Output data from the specified start position to end position.
+            This will not recalculate distance correction if it was already done before this call.
+            Otherwise, it will calculate using the midpoint of the range specified
+            </summary>
+            <param name="startPos">Start position</param>
+            <param name="endPos">End position</param>
+            <param name="reflDataX">Measurement X-axis data (position)</param>
+            <param name="reflDataY">Measurement Y-axis data (reflectance)</param>
+            <param name="reference">Flag as reference</param>
+            <returns>Error code</returns>
+        </member>
+        <member name="M:SantecSPA.SPAModule.GetReflectanceDataB(System.Double[]@,System.Double[]@,System.Boolean)">
+            <summary>
+            SPA-200 only
+            Process the most recent raw reflectance data and yields the reflectance trace of CH2/FFTB in spatial domain.
+            Output the full range of data.
+            This will use the midpoint of the entire range for distance correction.
+            </summary>
+            <param name="reflDataX">Measurement X-axis data (position)</param>
+            <param name="reflDataY">Measurement Y-axis data (reflectance)</param>
+            <param name="reference">Flag as reference</param>
+        </member>
+        <member name="M:SantecSPA.SPAModule.GetReflectanceDataB(System.Double,System.Double,System.Double,System.Double[]@,System.Double[]@,System.Boolean)">
+            <summary>
+            SPA-200 only
+            Process the most recent raw reflectance data and yields the reflectance trace of CH1/FFTB in spatial domain.
+            Output data from the specified start position to end position and recalculate using specified distance correction position.
+            </summary>
+            <param name="startPos">Start position</param>
+            <param name="endPos">End position</param>
+            <param name="distCorrPos">Distance Correction position</param>
+            <param name="reflDataX">Measurement X-axis data (position)</param>
+            <param name="reflDataY">Measurement Y-axis data (reflectance)</param>
+            <param name="reference">Flag as reference</param>
+        </member>
+        <member name="M:SantecSPA.SPAModule.GetReflectanceDataB(System.Double,System.Double,System.Double[]@,System.Double[]@,System.Boolean)">
+            <summary>
+            SPA-200 only
+            Process the most recent raw reflectance data and yields the reflectance trace of CH2/FFTB in spatial domain.
+            Output data from the specified start position to end position.
+            This will not recalculate distance correction if it was already done before this call.
+            Otherwise, it will calculate using the midpoint of the range specified
+            </summary>
+            <param name="startPos">Start position</param>
+            <param name="endPos">End position</param>
+            <param name="reflDataX">Measurement X-axis data (position)</param>
+            <param name="reflDataY">Measurement Y-axis data (reflectance)</param>
+            <param name="reference">Flag as reference</param>
+        </member>
+        <member name="M:SantecSPA.SPAModule.GetReflectanceData(System.Double[]@,System.Double[]@,System.Boolean)">
+            <summary>
+            Process the most recent raw reflectance data and yields the reflectance trace in spatial domain.
+            Output the full range of data.
+            For SPA-200, this will use the midpoint of the entire range for distance correction if it was not specified before.
+            </summary>
+            <param name="reflDataX">Measurement X-axis data (position)</param>
+            <param name="reflDataY">Measurement Y-axis data (reflectance)</param>
+            <param name="reference">Flag as reference</param>
+            <returns>Error code</returns>
+            
+        </member>
+        <member name="M:SantecSPA.SPAModule.GetReflectanceData(System.Double,System.Double,System.Double,System.Double[]@,System.Double[]@,System.Boolean)">
+            <summary>
+            Process the most recent raw reflectance data and yields the reflectance trace in spatial domain.
+            Output data from the specified start position to end position using specified distance correction position.
+            </summary>
+            <param name="startPos">Start position</param>
+            <param name="endPos">End position</param>
+            <param name="distCorrPos">Distance Correction position</param>
+            <param name="reflDataX">Measurement X-axis data (position)</param>
+            <param name="reflDataY">Measurement Y-axis data (reflectance)</param>
+            <param name="reference">Flag as reference</param>
+            <returns>Error code</returns>
+            
+        </member>
+        <member name="M:SantecSPA.SPAModule.GetReflectanceData(System.Double,System.Double,System.Double[]@,System.Double[]@,System.Boolean)">
+            <summary>
+            Process the most recent raw reflectance data and yields the reflectance trace in spatial domain.
+            Output data from the specified start position to end position.
+            This will not recalculate distance correction if it was already done before this call.
+            Otherwise, it will calculate using the midpoint of the range specified
+            </summary>
+            <param name="startPos">Start position</param>
+            <param name="endPos">End position</param>
+            <param name="reflDataX">Measurement X-axis data (position)</param>
+            <param name="reflDataY">Measurement Y-axis data (reflectance)</param>
+            <param name="reference">Flag as reference</param>
+            <returns>Error code</returns>
+        </member>
+        <member name="M:SantecSPA.SPAModule.SetReflectanceData(System.Double[],System.Double[],System.Boolean)">
+            <summary>
+            Set the processed spatial domain reflectance data in memory.
+            </summary>
+            <param name="reflDataX">Measurement X-axis data (position)</param>
+            <param name="reflDataY">Measurement Y-axis data (reflectance)</param>
+            <param name="reference">Flag as reference</param>
+            <returns>Error code</returns>
+        </member>
+        <member name="M:SantecSPA.SPAModule.GetReflectionWDLData(System.Double,System.Double,System.Double[]@,System.Double[]@,System.Boolean)">
+            <summary>
+            Process current raw Reflection data stored in memory and get the processed RL WDL data.
+            </summary>
+            <param name="startPosition">Start position of WDL measurement region</param>
+            <param name="endPosition">Start position of WDL measurement region</param>
+            <param name="reflWdlDataX">WDL X-axis data (wavelength)</param>
+            <param name="reflWdlDataY">WDL Y-axis data (loss)</param>
+            <param name="reference">Flag as reference</param>
+            <returns>Error code</returns>
+        </member>
+        <member name="M:SantecSPA.SPAModule.GetReflectionWDLDataA(System.Double,System.Double,System.Double[]@,System.Double[]@,System.Boolean)">
+            <summary>
+            Process current raw Reflection data stored in memory and get the processed RL WDL data using only CH1/FFTA (SPA-200 only).
+            </summary>
+            <param name="startPosition">Start position of WDL measurement region</param>
+            <param name="endPosition">Start position of WDL measurement region</param>
+            <param name="reflWdlDataX">WDL X-axis data (wavelength)</param>
+            <param name="reflWdlDataY">WDL Y-axis data (loss)</param>
+            <param name="reference">Flag as reference</param>
+            <returns>Error code</returns>
+        </member>
+        <member name="M:SantecSPA.SPAModule.GetReflectionWDLDataB(System.Double,System.Double,System.Double[]@,System.Double[]@,System.Boolean)">
+            <summary>
+            Process current raw Reflection data stored in memory and get the processed RL WDL data using only CH2/FFTB (SPA-200 only).
+            </summary>
+            <param name="startPosition">Start position of WDL measurement region</param>
+            <param name="endPosition">Start position of WDL measurement region</param>
+            <param name="reflWdlDataX">WDL X-axis data (wavelength)</param>
+            <param name="reflWdlDataY">WDL Y-axis data (loss)</param>
+            <param name="reference">Flag as reference</param>
+            <returns>Error code</returns>
+        </member>
+        <member name="M:SantecSPA.SPAModule.SetReflectionWDLData(System.Double[],System.Double[],System.Boolean)">
+            <summary>
+            Set the processed Reflection WDL (RL WDL) data in memory.
+            </summary>
+            <param name="reflWdlDataX">WDL X-axis data (wavelength)</param>
+            <param name="reflWdlDataY">WDL Y-axis data (loss)</param>
+            <param name="reference">Flag as reference</param>
+            <returns>Error code</returns>
+        </member>
+        <member name="M:SantecSPA.SPAModule.GetReflectanceReferenceOffset(System.Double@)">
+            <summary>
+            Use the current raw scan data in memory to calculate and get the reflectance reference offset
+            </summary>
+            <param name="reflReferenceOffset">Scan reflectance intensity reference offset</param>
+            <returns>Error code</returns>
+        </member>
+        <member name="M:SantecSPA.SPAModule.GetReflectanceReferenceOffset200(System.Double@,System.Int32)">
+            <summary>
+            Use the current raw scan data in memory to calculate and get the reflectance reference offset
+            </summary>
+            <param name="reflReferenceOffset">Scan reflectance intensity reference offset</param>
+            <returns>Error code</returns>
+        </member>
+        <member name="M:SantecSPA.SPAModule.SetReflectanceReferenceOffset(System.Double)">
+            <summary>
+            Set the reflectance reference offset
+            </summary>
+            <param name="reflReferenceOffset">Scan reflectance intensity reference offset</param>
+            <returns>Error code</returns>
+        </member>
+        <member name="M:SantecSPA.SPAModule.GetTransmissionData(System.Double[]@,System.Double[]@,System.Boolean)">
+            <summary>
+            Get Transmission spatial data
+            </summary>
+            <param name="transDataX">Transmission x-axis data</param>
+            <param name="transDataY">Transmission y-axis data</param>
+            <param name="reference">Flag for reference</param>
+            <returns>Error code</returns>
+        </member>
+        <member name="M:SantecSPA.SPAModule.GetTransmissionReferencePeak(System.Double@)">
+            <summary>
+            Use the current Transmission raw scan data in memory to calculate and get the reference peak position
+            </summary>
+            <param name="transReferencePeak">Transmission Mode reference peak position</param>
+            <returns>Error code</returns>
+        </member>
+        <member name="M:SantecSPA.SPAModule.SetTransmissionReferencePeak(System.Double)">
+            <summary>
+            Set the IL WDL reference.
+            </summary>
+            <param name="transReferencePeak">Transmission Mode reference offset</param>
+            <returns>Error code</returns>
+        </member>
+        <member name="M:SantecSPA.SPAModule.GetTransmissionWDLData(System.Double,System.Double,System.Double[]@,System.Double[]@,System.Boolean)">
+            <summary>
+            Process current raw Transmission data stored in memory and get the processed IL WDL data.
+            </summary>
+            <param name="startPosition">Start position of WDL measurement region</param>
+            <param name="endPosition">Start position of WDL measurement region</param>
+            <param name="transWdlDataX">WDL X-axis data (wavelength)</param>
+            <param name="transWdlDataY">WDL Y-axis data (loss)</param>
+            <param name="reference">Flag as reference</param>
+            <returns>Error code</returns>
+        </member>
+        <member name="M:SantecSPA.SPAModule.SetTransmissionWDLData(System.Double[],System.Double[],System.Boolean)">
+            <summary>
+            Set the processed IL WDL data in memory.
+            </summary>
+            <param name="transWdlDataX">WDL X-axis data (wavelength)</param>
+            <param name="transWdlDataY">WDL Y-axis data (loss)</param>
+            <param name="reference">Flag as reference</param>
+            <returns>Error code</returns>
+        </member>
+        <member name="M:SantecSPA.SPAModule.GetPeaks(System.Double,System.Double,System.Double[]@,System.Double[]@,System.Int32@)">
+            <summary>
+            Analyzes the reflectance trace for reflectance peaks. 
+            Identifies peaks above a certain power threshold and minimum width and outputs them as a list.
+            </summary>
+            <param name="startPosition">Start position of peak search range</param>
+            <param name="endPosition">End position of peak search range</param>
+            <param name="peakList">List of peak positions found</param>
+            <param name="peakValList">List of corresponding vallues of peaks found</param>
+            <param name="peakCount">Number of peaks found</param>
+            <returns>Error code</returns>
+        </member>
+        <member name="M:SantecSPA.SPAModule.SetPeaks(System.Double[],System.Int32)">
+            <summary>
+            Set the peak positions
+            </summary>
+            <param name="peakList">List of peak positions</param>
+            <param name="peakCount">Number of peaks</param>
+            <returns>Error code</returns>
+        </member>
+        <member name="M:SantecSPA.SPAModule.SetRefractiveIndexRegion(System.Double,System.Double,System.Double)">
+            <summary>
+            Set the refractive index for the specified region
+            </summary>
+            <param name="startPosition">Start position of region</param>
+            <param name="endPosition">End position of region</param>
+            <param name="refractiveIndex">Refractive index</param>
+            <returns>Error code</returns>
+        </member>
+        <member name="M:SantecSPA.SPAModule.SetDispersionCompensationRegion(System.Double,System.Double)">
+            <summary>
+            Set the dispersion compensation region
+            </summary>
+            <param name="startPosition">Start position of region</param>
+            <param name="endPosition">End position of region</param>
+            <returns>Error code</returns>
+        </member>
+        <member name="M:SantecSPA.SPAModule.DevMode(System.String)">
+            <summary>
+            Enable or disable developer mode by validating a password against the stored hash
+            </summary>
+            <param name="password">Developer mode password</param>
+            <returns>True if the password matched and developer mode is now enabled, otherwise false</returns>
+        </member>
+        <member name="M:SantecSPA.SPAModule.Initialize(System.String)">
+            <summary>
+            Initialize communication with TSL and SPA using connection settings from INI file
+            </summary>
+            <param name="connectionFile">Path to connection INI file.</param>
+            <returns>Error code</returns>
+        </member>
+        <member name="M:SantecSPA.SPAModule.Initialize(System.String,System.String,System.UInt32,System.UInt32,System.String,System.UInt32)">
+            <summary>
+            Initialize communication with TSL and SPA using specified parameters
+            </summary>
+            <param name="spaDeviceName">SPA-200 Device Name</param>
+            <param name="tslCommunicationType">TSL communication type: "GPIB", "USB, or "LAN"</param>
+            <param name="tslGpibAddress">TSL GPIB Address</param>
+            <param name="tslUsbDeviceId">TSL USB Address</param>
+            <param name="tslIpAddress">TSL LAN IP Address</param>
+            <param name="tslPort">TSL LAN Port</param>
+            <returns>Error code</returns>
+        </member>
+        <member name="M:SantecSPA.SPAModule.Initialize(System.String,System.String,System.UInt32)">
+            <summary>
+            Initialize communication with TSL and SPA using specified parameters
+            </summary>
+            <param name="spaDeviceName">SPA-200 Device Name</param>
+            <param name="tslIpAddress">TSL LAN IP Address</param>
+            <param name="tslPort">TSL LAN Port</param>
+            <returns>Error code</returns>
+        </member>
+        <member name="M:SantecSPA.SPAModule.Initialize(System.String,System.UInt32)">
+            <summary>
+            Initialize communication with TSL and SPA using specified parameters
+            </summary>
+            <param name="spaDeviceName">SPA-200 Device Name</param>
+            <param name="tslGpibAddress">TSL GPIB Address</param>
+            <returns>Error code</returns>
+        </member>
+        <member name="M:SantecSPA.SPAModule.Initialize(System.String,System.Int32)">
+            <summary>
+            Initialize communication with TSL and SPA using specified parameters
+            </summary>
+            <param name="spaDeviceName">SPA-200 Device Name</param>
+            <param name="tslUsbDeviceId">TSL USB Device ID</param>
+            <returns>Error code</returns>
+        </member>
+        <member name="M:SantecSPA.SPAModule.LoadOperationSettingsFromFile(System.String)">
+            <summary>
+            Load settings from file
+            </summary>
+            <param name="filepath">Path to settings INI file</param>
+            <returns>Error code</returns>
+        </member>
+        <member name="M:SantecSPA.SPAModule.SaveOperationSettingsToFile(System.String)">
+            <summary>
+            Save settings from file
+            </summary>
+            <param name="filepath">Path to settings INI file</param>
+            <returns>Error code</returns>
+        </member>
+        <member name="M:SantecSPA.SPAModule.SetOperationSettingsValue(System.String,System.String)">
+            <summary>
+            Set the specified setting to the specified value
+            </summary>
+            <param name="settingKey">Setting key/name</param>
+            <param name="settingValue">Setting value</param>
+            <returns>Error code</returns>
+        </member>
+        <member name="M:SantecSPA.SPAModule.SetOperationSettingsValue(System.String,System.Int32)">
+            <summary>
+            Set the specified setting to the specified value
+            </summary>
+            <param name="settingKey"></param>
+            <param name="settingValue"></param>
+            <returns>Error code</returns>
+        </member>
+        <member name="M:SantecSPA.SPAModule.SetOperationSettingsValue(System.String,System.Double)">
+            <summary>
+            Set the specified setting to the specified value
+            </summary>
+            <param name="settingKey"></param>
+            <param name="settingValue"></param>
+            <returns>Error code</returns>
+        </member>
+        <member name="M:SantecSPA.SPAModule.SetOperationSettingsValue(System.String,System.Boolean)">
+            <summary>
+            Set the specified setting to the specified value
+            </summary>
+            <param name="settingKey"></param>
+            <param name="settingValue"></param>
+            <returns>Error code</returns>
+        </member>
+        <member name="M:SantecSPA.SPAModule.GetOperationSettingsValue(System.String,System.String@)">
+            <summary>
+            Get the specified settings value as a string
+            </summary>
+            <param name="settingKey"></param>
+            <param name="settingValue"></param>
+            <returns>Error code</returns>
+        </member>
+        <member name="M:SantecSPA.SPAModule.GetDistanceRangeTable(System.Double[]@)">
+            <summary>
+            Get the table of available distance ranges. Use with SetOperationSettingValue("DistanceRange", value) to select a range from the table.
+            </summary>
+            <param name="distanceRangeTable">Table of distance ranges (meters)</param>
+            <returns>Error code</returns>
+        </member>
+        <member name="M:SantecSPA.SPAModule.ExecuteReflectionReference(System.Double@)">
+            <summary>
+            Performs a reflectance scan and calculates a calibration factor to correct for the reflectance trace. 
+            It is suggested that this scan is performed with nothing connected to the front panel connector.
+            </summary>
+            <param name="reflReference">Scan reflectance intensity reference</param>
+            <returns>Error code</returns>
+        </member>
+        <member name="M:SantecSPA.SPAModule.ExecuteReflectionMeasurement(System.Double[]@,System.Double[]@)">
+            <summary>
+            Performs a reflectance scan and yields a spatially resolved reflectance trace with the resolution specified in settings.
+            </summary>
+            <param name="reflDataX">Measurement X-axis data (position)</param>
+            <param name="reflDataY">Measurement Y-axis data (reflectance)</param>
+            <returns>Error code</returns>
+        </member>
+        <member name="M:SantecSPA.SPAModule.ExecuteReflectionMeasurement(System.Double,System.Double,System.Double,System.Double[]@,System.Double[]@)">
+            <summary>
+            Performs a reflectance scan and yields a spatially resolved reflectance trace with the resolution specified in settings.
+            Outputs data from start position to end position using the specified distance correction position
+            </summary>
+            <param name="startPosition">Start position</param>
+            <param name="endPosition">End position</param>
+            <param name="distCorrPos">Distance Correction position</param>
+            <param name="reflDataX">Measurement X-axis data (position)</param>
+            <param name="reflDataY">Measurement Y-axis data (reflectance)</param>
+            <returns>Error code</returns>
+        </member>
+        <member name="M:SantecSPA.SPAModule.ExecuteReflectionWDLReference(System.Double,System.Double,System.Double[]@,System.Double[]@)">
+            <summary>
+            Perform a Reflection scan, process it, then get the WDL reference.
+            </summary>
+            <param name="startPosition">Start position of filter range</param>
+            <param name="endPosition">End position of filter range</param>
+            <param name="reflWdlRefDataX">Reflection Mode WDL x-axis data (wavelength)</param>
+            <param name="reflWdlRefDataY">Reflection Mode WDL y-axis data (loss)</param>
+            <returns>Error code</returns>
+        </member>
+        <member name="M:SantecSPA.SPAModule.ExecuteReflectionWDLMeasurement(System.Double,System.Double,System.Double[]@,System.Double[]@)">
+            <summary>
+            Computes the wavelength component for the specified region of the reflectance trace. 
+            The result will be reflectance value with respect to the wavelength range of the reflectance sweep.
+            </summary>
+            <param name="startPosition">Start position of WDL measurement region</param>
+            <param name="endPosition">Start position of WDL measurement region</param>
+            <param name="reflWdlDataX">Reflection WDL X-axis data (wavelength)</param>
+            <param name="reflWdlDataY">Reflection WDL Y-axis data (RL WDL)</param>
+            <returns>Error code</returns>
+        </member>
+        <member name="M:SantecSPA.SPAModule.ExecuteTransmissionReference(System.Double[]@,System.Double[]@,System.Double@)">
+            <summary>
+            Performs a Transmission Reference sweep. 
+            Requires a reference to be connected from output port 1 to port 2.
+            </summary>
+            <param name="transRefDataX">Transmission scan x-axis data</param>
+            <param name="transRefDataY">Transmission scan y-axis data</param>
+            <param name="peakPos">Reference peak position</param>
+            <returns>Error code</returns>
+        </member>
+        <member name="M:SantecSPA.SPAModule.ExecuteTransmissionMeasurement(System.Double[]@,System.Double[]@)">
+            <summary>
+            Performs a Transmission Measurement sweep. 
+            Requires a reference to be connected from output port 1 to port 2.
+            </summary>
+            <param name="transDataX">Transmission scan x-axis data</param>
+            <param name="transDataY">Transmission scan y-axis data</param>
+            <returns>Error code</returns>
+        </member>
+        <member name="M:SantecSPA.SPAModule.ExecuteTransmissionWDLReference(System.Double,System.Double,System.Double[]@,System.Double[]@)">
+            <summary>
+            References the Transmission WDL in the specified range.
+            Requires a reference to be connected from output port 1 to port 2.
+            </summary>
+            <param name="startPosition">Start position of WDL measurement region</param>
+            <param name="endPosition">Start position of WDL measurement region</param>
+            <param name="transWdlRefDataX">Transmission WDL X-axis data (wavelength)</param>
+            <param name="transWdlRefDataY">Transmission WDL Y-axis data (IL WDL)</param>
+            <returns>Error code</returns>
+        </member>
+        <member name="M:SantecSPA.SPAModule.ExecuteTransmissionWDLMeasurement(System.Double,System.Double,System.Double[]@,System.Double[]@)">
+            <summary>
+            This performs a wavelength sweep and yields the insertion loss with respect to wavelength with a wavelength resolution as defined in the settings.
+            </summary>
+            <param name="startPosition"></param>
+            <param name="endPosition"></param>
+            <param name="transWdlDataX">Transmission WDL X-axis data (wavelength)</param>
+            <param name="transWdlDataY">Transmission WDL Y-axis data (IL WDL)</param>
+            <returns>Error code</returns>
+        </member>
+        <member name="M:SantecSPA.SPAModule.ExecutePositionReference(System.Double,System.Double,System.Int32,System.Double@)">
+            <summary>
+            Perform a Reflection scan, process it, then get the position of the first/last peak found within the specified range
+            </summary>
+            <param name="startPosition">Start position of peak search region</param>
+            <param name="endPosition">End position of peak search region</param>
+            <param name="direction">0 : first peak; 1 : last peak</param>
+            <param name="refPosition">Position of first peak found</param>
+            <returns>Error code</returns>
+        </member>
+        <member name="M:SantecSPA.SPAModule.ExecutePositionReference(System.Double,System.Double,System.Double,System.Int32,System.Double@)">
+            <summary>
+            Perform a Reflection scan, process it, then get the position of the first/last peak found within the specified range
+            </summary>
+            <param name="startPosition">Start position of peak search region</param>
+            <param name="endPosition">End position of peak search region</param>
+            <param name="distCorrPos">Distance Correction position</param>
+            <param name="direction">0 : first peak; 1 : last peak</param>
+            <param name="refPosition">Position of first peak found</param>
+            <returns>Error code</returns>
+        </member>
+        <member name="M:SantecSPA.SPAModule.ExecutePeakScan(System.Double,System.Double,System.Int32,System.Int32,System.Double[]@,System.Double[]@)">
+            <summary>
+            Perform a Reflection Measurement scan, process it, then get the distance from the reference position to the first/last N peaks found within the specified range
+            </summary>
+            <param name="startPosition">Start position of peak search</param>
+            <param name="endPosition">End position of peak search</param>
+            <param name="direction">0 : search for first N peaks; 1 : search for last N peaks</param>
+            <param name="maxPeakCount">Max number of peaks to find</param>
+            <param name="peakPositionList">List of peak positions</param>
+            <param name="peakValuesList">List of peak values</param>
+            <returns>Error code</returns>
+        </member>
+        <member name="M:SantecSPA.SPAModule.ExecutePeakScan(System.Double,System.Double,System.Double,System.Int32,System.Int32,System.Double[]@,System.Double[]@)">
+            <summary>
+            Perform a Reflection Measurement scan, process it, then get the distance from the reference position to the first/last N peaks found within the specified range
+            </summary>
+            <param name="startPosition">Start position of peak search</param>
+            <param name="endPosition">End position of peak search</param>
+            <param name="distCorrPos">Distance correction position</param>
+            <param name="direction">0 : search for first N peaks; 1 : search for last N peaks</param>
+            <param name="maxPeakCount">Max number of peaks to find</param>
+            <param name="peakPositionList">List of peak positions</param>
+            <param name="peakValuesList">List of peak values</param>
+            <returns>Error code</returns>
+        </member>
+        <member name="M:SantecSPA.SPAModule.MeasurePeakDistance(System.Double,System.Double,System.Double,System.Int32,System.Int32,System.Double[]@,System.Double[]@)">
+            <summary>
+            Using last saved reflection data, get the distance from the reference position to the first/last N peaks found within the specified range
+            </summary>
+            <param name="refPosition">Zero position</param>
+            <param name="startPosition">Start position of peak search</param>
+            <param name="endPosition">End position of peak search</param>
+            <param name="direction">0 : search for first N peaks; 1 : search for last N peaks</param>
+            <param name="maxPeakCount">Max number of peaks to find</param>
+            <param name="peakDistanceList">List of distances from reference position to peaks found</param>
+            <param name="peakValuesList">List of peak values</param>
+            <returns>Error code</returns>
+        </member>
+        <member name="M:SantecSPA.SPAModule.MeasureRL(System.Double,System.Double,System.Double@)">
+            <summary>
+            Calculates the return loss of an area of the reflectance trace.
+            </summary>
+            <param name="startPosition">RL region start position</param>
+            <param name="endPosition">RL region end position</param>
+            <param name="rlValue">RL value</param>
+            <returns>Error code</returns>
+        </member>
+        <member name="M:SantecSPA.SPAModule.MeasureIL(System.Double,System.Double,System.Double@)">
+            <summary>
+            Calculates the insertion loss of an area of the reflectance trace. 
+            Uses the integration and averaging limits specified in the settings.
+            </summary>
+            <param name="startPosition">IL region start position</param>
+            <param name="endPosition">IL region end position</param>
+            <param name="ilValue">IL value</param>
+            <returns>Error code</returns>
+        </member>
+    </members>
+</doc>
