@@ -122,11 +122,13 @@
 // Initialize and connect to instruments using a connection file
 spa.Initialize(&quot;connection.ini&quot;);
 
-// Initialize and connect to instruments using TSL GPIB on address = 1 and SPA as Dev1
-spa.Initialize(&quot;Dev1&quot;, &quot;GPIB&quot;, 1, 0, 0, null, 0);
+// Initialize and connect to instruments using TSL GPIB on address = 1 and SPA-200 with ID = F0B4EF
+// The SPA-200 ID is the last 6 digits of its MAC address (see label on side of SPA-200 instrument)
+spa.Initialize(&quot;F0B4EF&quot;, &quot;GPIB&quot;, 1, 0, 0, null, 0);
 
-// Initialize and connect to instruments using TSL USB device 5 and SPA as Dev1
-spa.Initialize(&quot;Dev1&quot;, &quot;USB&quot;, 0, 5, null, 0);
+// Initialize and connect to instruments using TSL USB device 5 and SPA-200 with ID = F0B4EF 
+// using the SPA-200 and TSL USB 2-parameter version
+spa.Initialize(&quot;F0B4EF&quot;, 5);
 
 
 // load SPA Settings from file
@@ -152,7 +154,8 @@ spa.Initialize(&quot;connection.ini&quot;);
 // Perform a reflection reference scan using the base functions
 
 // Set to Reflection Mode Port 1
-spa.SetOperationSettingsValue(&quot;MeasurementMode&quot;, 1);
+// 0 = Port 1, 1 = Port 2, 2 = Unused, 3 = Transmission Mode
+spa.SetOperationSettingsValue(&quot;MeasurementMode&quot;, 0);
 
 // Set wavelength range
 spa.SetOperationSettingsValue(&quot;StartWave&quot;, 1500);
@@ -179,13 +182,33 @@ ExecuteReferenceReflection(out reference);	// this will perform the scan and the
 // Perform the scan as measurement
 spa.Scan();		// reference = false by default
 
-// Process and get the spatial reflectance data x and y values
-spa.GetReflectanceData(out xValues, out yValues);
+// Process and get the spatial reflectance data x and y values from startPosition to endPosition
+startPosition = 0
+endPosition = 12000
+
+// specify the Distance Correction Position
+distanceCorrectionPosition = 8000
+
+// positions get less accurate the further away from the Distance Correction Position
+// if not specified, and this is the first time the data is processed from a new scan
+// either from a previous spa.GetReflectanceData or a spa.Execute... 
+// it will use the midpoint of the range provided
+// otherwise, it will not recalculate the correction until a value is explicitly specified
+
+# this will recalculate using the specified distanceCorrectionPosition
+spa.GetReflectanceData(startPosition, endPosition, distanceCorrectionPosition, out xValues, out yValues);
+
+// ...
+
+// this will not recalculate if already calculated from a previous call to this or ExecuteReflectionMeasurement
+spa.GetReflectanceData(startPosition, endPosition, null, out xValues, out yValues);
 
 // ...
 
 // Peform the measurement after referencing using the top level function
-spa.ExecuteReflectionMeasurement(out xValues, out yValues);
+// Distance Correction behaves the same way as above with GetReflectanceData
+spa.ExecuteReflectionMeasurement(startPosition, endPosition, distanceCorrectionPosition, out xValues, out yValues);
+
 </code></pre><h2 id="finding-peaks">Finding Peaks</h2>
 <pre><code class="lang-csharp">// Instruments initialized in Reflection Mode and reference scan was performed previously
 
