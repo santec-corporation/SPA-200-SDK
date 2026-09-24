@@ -34,24 +34,40 @@ jobs:
             echo "RELEASE_VERSION=${GITHUB_REF_NAME}" >> "$GITHUB_ENV"
           fi
 
-      - name: Create ZIP archive
+      - name: Create ZIP archives
         run: |
-          ZIP_NAME="Santec_SPA_200_SDK_${RELEASE_VERSION}.zip"
+          FULL_ZIP="Santec_SPA_200_${RELEASE_VERSION}.zip"
+          SDK_ZIP="Santec_SPA_200_SDK_${RELEASE_VERSION}.zip"
+          SAMPLES_ZIP="Santec_SPA_200_Samples_${RELEASE_VERSION}.zip"
 
-          zip -r "$ZIP_NAME" \
-            Documentation \
-            SDK \
-            Samples \
-            LICENSE \
-            README.md
+          # Full repository
+          # Exclude GitHub configuration and repository metadata files
+          zip -r "$FULL_ZIP" . \
+            -x ".git/*" \
+               ".github/*" \
+               ".gitignore" \
+               ".gitattributes" \
+               "$FULL_ZIP" \
+               "$SDK_ZIP" \
+               "$SAMPLES_ZIP"
 
-          echo "ZIP_NAME=$ZIP_NAME" >> "$GITHUB_ENV"
+          # SDK only
+          zip -r "$SDK_ZIP" SDK
+
+          # Samples only
+          zip -r "$SAMPLES_ZIP" Samples
+
+          echo "FULL_ZIP=$FULL_ZIP" >> "$GITHUB_ENV"
+          echo "SDK_ZIP=$SDK_ZIP" >> "$GITHUB_ENV"
+          echo "SAMPLES_ZIP=$SAMPLES_ZIP" >> "$GITHUB_ENV"
 
       - name: Create GitHub Release
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           gh release create "$RELEASE_VERSION" \
-            "$ZIP_NAME" \
+            "$FULL_ZIP" \
+            "$SDK_ZIP" \
+            "$SAMPLES_ZIP" \
             --title "$RELEASE_VERSION" \
             --generate-notes
